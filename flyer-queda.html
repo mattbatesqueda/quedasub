@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QUEDA - Techno Event</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;500;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0a0a0a;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 20px;
+}
+
+.flyer {
+  width: 800px;
+  max-width: 100%;
+  aspect-ratio: 3 / 4;
+  background: #0c0c0c;
+  border: 1px solid #1a1a2e;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 60px rgba(0, 255, 180, 0.06), 0 0 120px rgba(0, 200, 255, 0.03);
+}
+
+.matrix-rain {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  opacity: 0.06;
+  font-size: 14px;
+  line-height: 1;
+  color: #00ff88;
+  font-weight: 300;
+  letter-spacing: 2px;
+  word-break: break-all;
+  overflow: hidden;
+  user-select: none;
+  pointer-events: none;
+}
+
+.grid-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0, 255, 180, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 180, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.circuit {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.12;
+}
+.circuit-1 { top: 5%; left: -5%; width: 40%; height: 2px; background: linear-gradient(90deg, transparent, #00ff88, #00ccff); transform: rotate(15deg); }
+.circuit-2 { bottom: 20%; right: -8%; width: 50%; height: 1px; background: linear-gradient(90deg, #00ccff, #00ff88, transparent); transform: rotate(-10deg); }
+.circuit-3 { top: 40%; right: 5%; width: 3px; height: 30%; background: linear-gradient(180deg, #00ff88, transparent); }
+.circuit-4 { bottom: 10%; left: 15%; width: 2px; height: 25%; background: linear-gradient(180deg, transparent, #00ccff); }
+.circuit-dot {
+  position: absolute;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #00ff88;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.3;
+  box-shadow: 0 0 8px #00ff88;
+}
+
+.scanline {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 255, 180, 0.015) 2px,
+    rgba(0, 255, 180, 0.015) 4px
+  );
+}
+
+.vignette {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%);
+}
+
+.content {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  padding: 30px 24px;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.code-line {
+  font-family: 'JetBrains Mono', monospace;
+  color: #00ff88;
+  font-size: 10px;
+  opacity: 0.15;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+  text-align: center;
+  width: 100%;
+}
+
+.code-line span { color: #00ccff; opacity: 0.5; }
+
+.event-name {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(60px, 11vw, 110px);
+  font-weight: 900;
+  color: #00ff88;
+  text-shadow:
+    0 0 20px rgba(0, 255, 136, 0.4),
+    0 0 60px rgba(0, 255, 136, 0.15),
+    3px 0 0 rgba(0, 200, 255, 0.3),
+    -3px 0 0 rgba(255, 0, 200, 0.2);
+  letter-spacing: 8px;
+  line-height: 1;
+  position: relative;
+  animation: glitch 4s infinite;
+}
+
+@keyframes glitch {
+  0%, 90%, 100% { transform: translate(0); }
+  92% { transform: translate(-2px, 1px); }
+  94% { transform: translate(2px, -1px); }
+  96% { transform: translate(-1px, 1px); }
+  98% { transform: translate(1px, 0); }
+}
+
+.event-name::before {
+  content: 'QUEDA';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  color: #00ccff;
+  opacity: 0.15;
+  transform: translate(4px, 2px);
+  pointer-events: none;
+}
+
+.event-name::after {
+  content: 'QUEDA';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  color: #ff00c8;
+  opacity: 0.1;
+  transform: translate(-4px, -2px);
+  pointer-events: none;
+}
+
+.subtitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: #00ccff;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin-top: 6px;
+  opacity: 0.6;
+}
+
+.lineup-section {
+  margin-top: 28px;
+}
+
+.lineup-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: #00ff88;
+  opacity: 0.3;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.djs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 24px;
+}
+
+.dj {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(12px, 1.2vw, 15px);
+  color: #e0e0e0;
+  letter-spacing: 2px;
+  padding: 3px 0;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+
+.dj::before { content: '['; color: #00ff88; opacity: 0.3; margin-right: 5px; }
+.dj::after { content: ']'; color: #00ff88; opacity: 0.3; margin-left: 5px; }
+
+.dj:hover { color: #00ff88; text-shadow: 0 0 20px rgba(0, 255, 136, 0.3); }
+
+.info-bar {
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.info-label {
+  font-size: 8px;
+  color: #00ff88;
+  opacity: 0.25;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.info-value {
+  font-family: 'Orbitron', monospace;
+  font-size: 12px;
+  color: #c0c0c0;
+  letter-spacing: 1px;
+}
+
+.genre-tag {
+  display: inline-block;
+  font-size: 9px;
+  color: #00ccff;
+  opacity: 0.5;
+  letter-spacing: 3px;
+  margin-top: 10px;
+  padding: 4px 16px;
+  border: 1px solid rgba(0, 204, 255, 0.15);
+}
+
+.notice-box {
+  margin: 16px auto 0;
+  max-width: 500px;
+  padding: 12px 20px;
+  border: 1px solid #1a1a2e;
+  background: rgba(0,0,0,0.3);
+}
+
+.notice-box p {
+  font-size: 10px;
+  color: #888;
+  line-height: 1.7;
+}
+
+.ticket-section {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.ticket-item {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid #1a1a2e;
+  padding: 10px 16px;
+  min-width: 80px;
+  text-align: center;
+}
+
+.ticket-num {
+  font-family: 'Orbitron', monospace;
+  font-size: 18px;
+  color: #00ff88;
+}
+
+.ticket-label {
+  font-size: 8px;
+  color: #666;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+.rsvp-line {
+  margin-top: 14px;
+  font-size: 10px;
+  color: #00ccff;
+  opacity: 0.5;
+  letter-spacing: 3px;
+}
+
+.footer-code {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 8px;
+  color: #00ff88;
+  opacity: 0.12;
+  letter-spacing: 2px;
+}
+
+.decoded {
+  font-size: 8px;
+  color: #00ccff;
+  opacity: 0.08;
+  letter-spacing: 1px;
+  margin-top: 8px;
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: #00ff88;
+  animation: blink 1s step-end infinite;
+  vertical-align: middle;
+  opacity: 0.3;
+  margin-left: 4px;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+@media (max-width: 600px) {
+  .flyer { aspect-ratio: auto; min-height: 100vh; border: none; overflow-y: auto; }
+  .event-name { font-size: 50px; letter-spacing: 4px; }
+  .code-line { font-size: 8px; }
+  .djs { gap: 6px 16px; }
+  .info-bar { gap: 16px; }
+  .content { padding: 20px 16px; }
+  .ticket-section { gap: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="flyer">
+  <div class="matrix-rain" id="matrixRain"></div>
+  <div class="grid-overlay"></div>
+  <div class="circuit circuit-1"></div>
+  <div class="circuit circuit-2"></div>
+  <div class="circuit circuit-3"></div>
+  <div class="circuit circuit-4"></div>
+  <div class="circuit-dot" style="top:8%;left:35%;"></div>
+  <div class="circuit-dot" style="bottom:22%;right:40%;"></div>
+  <div class="circuit-dot" style="top:42%;right:10%;"></div>
+  <div class="circuit-dot" style="bottom:12%;left:20%;"></div>
+  <div class="scanline"></div>
+  <div class="vignette"></div>
+
+  <div class="content">
+    <div class="code-line">
+      <span>const</span> event = { name: <span>'</span>QUEDA<span>'</span>, date: <span>'</span>13.JUN.2026<span>'</span> };<span class="cursor"></span>
+    </div>
+
+    <div class="event-name">QUEDA</div>
+    <div class="subtitle">// SISTEMA EM EXECUÇÃO</div>
+
+    <div class="lineup-section">
+      <div class="lineup-title">// core.syscall (lineup)</div>
+      <div class="djs">
+        <a href="https://www.instagram.com/chamadematos/" target="_blank" class="dj">CHAMADEMATOS</a>
+        <span class="dj">MATHCAPI</span>
+        <span class="dj">MOONWITCH</span>
+        <span class="dj">PESADÃO</span>
+        <span class="dj">PR△DOX</span>
+        <a href="https://www.instagram.com/hayllander/" target="_blank" class="dj">HAYLLANDER</a>
+      </div>
+    </div>
+
+    <div class="info-bar">
+      <div class="info-item">
+        <span class="info-label">// date</span>
+        <span class="info-value">13.JUN.2026</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">// hour</span>
+        <span class="info-value">16H</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">// location</span>
+        <span class="info-value">BAR DE PEDRA</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">// sector</span>
+        <span class="info-value">PRAÇA DO LICEU</span>
+      </div>
+    </div>
+
+    <div class="genre-tag">TECHNO // INDUSTRIAL / HARD / GROOVE</div>
+
+    <div class="notice-box">
+      <p>O espaço conta com <strong style="color:#00ff88">aluguel de mesas</strong> para quem quiser mais conforto,<br>
+      mas o evento será <strong style="color:#00ccff">aberto em praça pública</strong> — todo mundo é bem-vindo!</p>
+    </div>
+
+    <div class="ticket-section">
+      <div class="ticket-item">
+        <div class="ticket-num">40</div>
+        <div class="ticket-label">Mesas</div>
+      </div>
+      <div class="ticket-item">
+        <div class="ticket-num">R$15</div>
+        <div class="ticket-label">Por Mesa</div>
+      </div>
+      <div class="ticket-item">
+        <div class="ticket-num">4</div>
+        <div class="ticket-label">Pessoas/Mesa</div>
+      </div>
+    </div>
+
+    <div style="margin-top:8px;font-size:9px;color:#666;letter-spacing:1px">
+      R$7,50 cada (2) &nbsp;|&nbsp; R$5 cada (3) &nbsp;|&nbsp; R$3,75 cada (4)
+    </div>
+
+    <div class="rsvp-line">// CONFIRME SUA PRESENÇA EM <a href="https://www.instagram.com/quedasub/" target="_blank" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(0,204,255,0.2)">@QUEDASUB</a></div>
+
+    <div class="footer-code">
+      <span>[ OK ]_SYSTEM_INITIALIZED</span>
+      <span>|</span>
+      <span>TECHNO_PROTOCOL_v3.2</span>
+      <span>|</span>
+      <span>{ ENTRY: OPEN }</span>
+    </div>
+
+    <div class="decoded">
+      01110001 01110101 01100101 01100100 01100001
+    </div>
+  </div>
+</div>
+
+<script>
+const rainEl = document.getElementById('matrixRain');
+const chars = '0101011010111010101101010110010110101101QWERNMqwernmQUEDAqueda@#$%&/';
+
+function generateRain() {
+  let html = '';
+  const cols = Math.floor(rainEl.offsetWidth / 14);
+  const rows = Math.floor(rainEl.offsetHeight / 14);
+  for (let i = 0; i < cols; i++) {
+    const speed = Math.floor(Math.random() * 20) + 5;
+    for (let j = 0; j < rows; j++) {
+      const char = chars[Math.floor(Math.random() * chars.length)];
+      const topOffset = (j * 14 - (Date.now() / speed) % (rows * 14));
+      if (topOffset > -20 && topOffset < rainEl.offsetHeight + 20) {
+        html += char + ' ';
+      }
+    }
+    html += '\n';
+  }
+  rainEl.textContent = html;
+  requestAnimationFrame(generateRain);
+}
+setTimeout(generateRain, 100);
+</script>
+
+</body>
+</html>
