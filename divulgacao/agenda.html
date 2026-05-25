@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendário - QUEDA</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #0a0a0a; color: #e0e0e0;
+  font-family: 'JetBrains Mono', monospace; padding: 40px 20px;
+}
+.container { max-width: 700px; margin: 0 auto; }
+h1 { font-family: 'Orbitron', monospace; color: #00ff88; font-size: 24px; letter-spacing: 3px; }
+.sub { color: #666; font-size: 12px; margin: 6px 0 30px; letter-spacing: 1px; }
+.semana { margin-bottom: 30px; }
+.semana h2 {
+  font-family: 'Orbitron', monospace; font-size: 14px; color: #00ccff;
+  letter-spacing: 2px; margin-bottom: 12px; padding-bottom: 6px;
+  border-bottom: 1px solid #1a1a2e;
+}
+.card {
+  background: #111118; border: 1px solid #1a1a2e;
+  padding: 16px 20px; margin-bottom: 10px;
+  display: flex; align-items: flex-start; gap: 16px;
+}
+.card .dia {
+  font-family: 'Orbitron', monospace; font-size: 11px;
+  color: #00ff88; min-width: 80px; letter-spacing: 1px;
+}
+.card .info { flex: 1; }
+.card .info .acao {
+  font-size: 13px; color: #fff; margin-bottom: 4px;
+}
+.card .info .detalhe {
+  font-size: 10px; color: #666; letter-spacing: 1px;
+}
+.card .tag {
+  font-family: 'Orbitron', monospace; font-size: 9px;
+  padding: 3px 10px; border: 1px solid #1a1a2e; color: #888;
+  letter-spacing: 1px; white-space: nowrap;
+}
+.tag.stories { border-color: rgba(255,0,200,0.3); color: #ff00c8; }
+.tag.feed { border-color: rgba(0,200,255,0.3); color: #00ccff; }
+.tag.post { border-color: rgba(255,204,0,0.3); color: #ffcc00; }
+@media (max-width: 600px) {
+  .card { flex-direction: column; gap: 8px; }
+  .card .dia { min-width: auto; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>// AGENDA_QUEDA</h1>
+  <p class="sub">Cronograma de divulgação — 13.JUN.2026</p>
+
+  <div class="semana">
+    <h2>Semana 1 — Aquecimento</h2>
+    <div class="card">
+      <div class="dia">26.MAI (TER)</div>
+      <div class="info">
+        <div class="acao">Post de anúncio — data, local, lineup completo</div>
+        <div class="detalhe">Usar posts.html #01 • Flyer principal + flyer quadrado</div>
+      </div>
+      <span class="tag feed">FEED</span>
+      <span class="tag stories">STORIES</span>
+    </div>
+    <div class="card">
+      <div class="dia">28.MAI (QUI)</div>
+      <div class="info">
+        <div class="acao">Stories rápidos — contagem regressiva + chamada</div>
+        <div class="detalhe">Print do countdown do site • Flyer stories</div>
+      </div>
+      <span class="tag stories">STORIES</span>
+    </div>
+    <div class="card">
+      <div class="dia">30.MAI (SÁB)</div>
+      <div class="info">
+        <div class="acao">Post de lineup destacado</div>
+        <div class="detalhe">Usar posts.html #02 • Flyer quadrado</div>
+      </div>
+      <span class="tag feed">FEED</span>
+    </div>
+  </div>
+
+  <div class="semana">
+    <h2>Semana 2 — Aquecimento Intenso</h2>
+    <div class="card">
+      <div class="dia">02.JUN (TER)</div>
+      <div class="info">
+        <div class="acao">Post de informações — mesas, valores, local</div>
+        <div class="detalhe">Usar posts.html #03 • Flyer quadrado</div>
+      </div>
+      <span class="tag feed">FEED</span>
+    </div>
+    <div class="card">
+      <div class="dia">04.JUN (QUI)</div>
+      <div class="info">
+        <div class="acao">Stories — enquetes: "qual DJ você mais espera?"</div>
+        <div class="detalhe">Interativo • Marcar os DJs nos stories</div>
+      </div>
+      <span class="tag stories">STORIES</span>
+    </div>
+    <div class="card">
+      <div class="dia">06.JUN (SÁB)</div>
+      <div class="info">
+        <div class="acao">Post com preview musical (playlist Spotify)</div>
+        <div class="detalhe">Link da playlist: https://open.spotify.com/playlist/0WICCztkV6pUEiJP4DtBDE</div>
+      </div>
+      <span class="tag post">POST</span>
+      <span class="tag stories">STORIES</span>
+    </div>
+  </div>
+
+  <div class="semana">
+    <h2>Semana 3 — Reta Final</h2>
+    <div class="card">
+      <div class="dia">08.JUN (SEG)</div>
+      <div class="info">
+        <div class="acao">Post de contagem regressiva — "Faltam 5 dias"</div>
+        <div class="detalhe">Usar posts.html #04 (adaptado) • Stories com timer</div>
+      </div>
+      <span class="tag feed">FEED</span>
+      <span class="tag stories">STORIES</span>
+    </div>
+    <div class="card">
+      <div class="dia">10.JUN (QUA)</div>
+      <div class="info">
+        <div class="acao">Lembrete final — stories com todos os detalhes</div>
+        <div class="detalhe">Flyer stories • chamada pra confirmar presença</div>
+      </div>
+      <span class="tag stories">STORIES</span>
+    </div>
+    <div class="card">
+      <div class="dia">11.JUN (SEX)</div>
+      <div class="info">
+        <div class="acao">Post final — "Amanhã é o dia"</div>
+        <div class="detalhe">Posts.html #04 • Todos os flyers</div>
+      </div>
+      <span class="tag feed">FEED</span>
+      <span class="tag stories">STORIES</span>
+    </div>
+    <div class="card" style="border-color:#00ff88">
+      <div class="dia" style="color:#ffcc00">13.JUN (SÁB)</div>
+      <div class="info">
+        <div class="acao">🚀 QUEDA — O SISTEMA FOI INICIADO!</div>
+        <div class="detalhe">Stories ao vivo durante o evento • Fotos e vídeos</div>
+      </div>
+      <span class="tag stories">STORIES</span>
+    </div>
+  </div>
+
+  <div class="semana">
+    <h2>Pós-Evento</h2>
+    <div class="card">
+      <div class="dia">14.JUN (DOM)</div>
+      <div class="info">
+        <div class="acao">Post de agradecimento</div>
+        <div class="detalhe">Usar posts.html #05 • Fotos do evento • Marcar quem participou</div>
+      </div>
+      <span class="tag feed">FEED</span>
+      <span class="tag stories">STORIES</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

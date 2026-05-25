@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QUEDA - Stories</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0a0a0a;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 10px;
+}
+.flyer {
+  width: 400px;
+  max-width: 100%;
+  aspect-ratio: 9 / 16;
+  background: #0c0c0c;
+  border: 1px solid #1a1a2e;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 60px rgba(0,255,180,0.06);
+}
+canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.25; pointer-events: none; }
+.glow-bg {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+  background: radial-gradient(circle at 30% 20%, rgba(255,0,200,0.08), transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(0,200,255,0.08), transparent 50%);
+}
+.grid-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;
+  background-image: linear-gradient(rgba(0,255,180,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,180,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.scanline {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,180,0.008) 2px, rgba(0,255,180,0.008) 4px);
+}
+.vignette {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.8) 100%);
+}
+.content { position: relative; z-index: 5; text-align: center; padding: 30px 24px; width: 100%; }
+.title {
+  font-family: 'Orbitron', monospace; font-weight: 900;
+  font-size: clamp(64px, 16vw, 100px);
+  color: #00ff88;
+  text-shadow: 0 0 30px rgba(0,255,136,0.4), 0 0 80px rgba(0,255,136,0.15), 4px 0 0 rgba(0,200,255,0.25), -4px 0 0 rgba(255,0,200,0.15);
+  letter-spacing: 8px; line-height: 1; animation: glitch 4s infinite; position: relative;
+}
+@keyframes glitch {
+  0%, 88%, 100% { transform: translate(0); }
+  90% { transform: translate(-2px, 1px); }
+  92% { transform: translate(2px, -1px); }
+  94% { transform: translate(-1px, 2px); }
+  96% { transform: translate(1px, -1px); }
+}
+.title::before { content: 'QUEDA'; position: absolute; top: 0; left: 0; width: 100%; color: #00ccff; opacity: 0.1; transform: translate(4px, 2px); pointer-events: none; }
+.title::after { content: 'QUEDA'; position: absolute; top: 0; left: 0; width: 100%; color: #ff00c8; opacity: 0.07; transform: translate(-4px, -2px); pointer-events: none; }
+.date {
+  font-family: 'Orbitron', monospace; font-size: clamp(16px, 3.5vw, 24px);
+  color: #fff; letter-spacing: 4px; margin-top: 6px;
+}
+.date span { color: #00ff88; }
+.sub { font-size: 10px; color: #00ccff; letter-spacing: 6px; margin-top: 4px; opacity: 0.5; text-transform: uppercase; }
+.genre { font-size: 9px; color: #888; letter-spacing: 3px; margin-top: 16px; padding: 5px 18px; border: 1px solid #1a1a2e; text-transform: uppercase; display: inline-block; }
+.divider { width: 50%; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,255,136,0.15), transparent); margin: 18px auto; }
+.lineup { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; }
+.dj {
+  font-family: 'Orbitron', monospace; font-size: clamp(11px, 2vw, 13px);
+  color: #d0d0d0; letter-spacing: 1px; text-decoration: none;
+}
+.dj::before { content: '['; color: #00ff88; opacity: 0.25; margin-right: 3px; }
+.dj::after { content: ']'; color: #00ff88; opacity: 0.25; margin-left: 3px; }
+.loc {
+  margin-top: 16px; padding: 10px 18px; border: 1px solid #1a1a2e; background: rgba(0,0,0,0.3); display: inline-block;
+}
+.loc-name { font-family: 'Orbitron', monospace; font-size: 13px; color: #fff; letter-spacing: 1px; }
+.loc-sub { font-size: 9px; color: #666; letter-spacing: 2px; margin-top: 2px; text-transform: uppercase; }
+.entry {
+  margin-top: 16px; display: inline-block; padding: 8px 24px;
+  border: 1px solid #00ff88; font-family: 'Orbitron', monospace;
+  font-size: 10px; color: #00ff88; letter-spacing: 3px;
+  text-decoration: none; text-transform: uppercase; transition: all 0.4s;
+}
+.entry:hover { background: #00ff88; color: #0a0a0a; box-shadow: 0 0 40px rgba(0,255,136,0.2); }
+.tag { margin-top: 14px; font-size: 8px; color: #444; letter-spacing: 2px; }
+.binary { margin-top: 4px; font-size: 8px; color: #00ff88; opacity: 0.06; letter-spacing: 2px; }
+@media (max-width: 420px) {
+  .flyer { aspect-ratio: auto; min-height: 90vh; border: none; }
+  .content { padding: 20px 16px; }
+}
+</style>
+</head>
+<body>
+<div class="flyer">
+  <canvas id="bg"></canvas>
+  <div class="glow-bg"></div>
+  <div class="grid-overlay"></div>
+  <div class="scanline"></div>
+  <div class="vignette"></div>
+  <div class="content">
+    <div class="title">QUEDA</div>
+    <div class="date">13.JUN.2026 — <span>16H</span></div>
+    <div class="sub">// sistema techno</div>
+    <div class="genre">Techno / Industrial / Hard / Groove / Psytrance</div>
+    <div class="divider"></div>
+    <div class="lineup">
+      <span class="dj">CHAMADEMATOS</span>
+      <span class="dj">MATHCAPI</span>
+      <span class="dj">MOONWITCH</span>
+      <span class="dj">PESADÃO</span>
+      <span class="dj">PR△DOX</span>
+      <span class="dj">HAYLLANDER</span>
+      <span class="dj">BABYBOOMER</span>
+    </div>
+    <div class="divider"></div>
+    <div class="loc">
+      <div class="loc-name">BAR DE PEDRA</div>
+      <div class="loc-sub">Praça do Liceu — Centro</div>
+    </div>
+    <a href="https://www.instagram.com/quedasub/" target="_blank" class="entry">[ confirmar ]</a>
+    <div class="tag">#QUEDA #Techno</div>
+    <div class="binary">01110001 01110101 01100101 01100100 01100001</div>
+  </div>
+</div>
+<script>
+const c = document.getElementById('bg');
+const ctx = c.getContext('2d');
+function resize() { c.width = c.parentElement.offsetWidth; c.height = c.parentElement.offsetHeight; }
+resize(); window.addEventListener('resize', resize);
+let hue = 0;
+const pts = Array.from({ length: 40 }, () => ({ x: Math.random() * c.width, y: Math.random() * c.height, vx: (Math.random() - 0.5) * 1, vy: (Math.random() - 0.5) * 1, size: Math.random() * 4 + 1 }));
+function draw() {
+  ctx.fillStyle = 'rgba(10,10,10,0.06)'; ctx.fillRect(0, 0, c.width, c.height);
+  hue = (hue + 0.4) % 360;
+  for (const p of pts) {
+    const h = (hue + p.x * 0.3) % 360;
+    ctx.shadowColor = `hsla(${h},100%,60%,0.4)`; ctx.shadowBlur = 20;
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = `hsla(${h},100%,60%,0.5)`;
+    ctx.fill(); ctx.shadowBlur = 0;
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0 || p.x > c.width) p.vx *= -1;
+    if (p.y < 0 || p.y > c.height) p.vy *= -1;
+  }
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>

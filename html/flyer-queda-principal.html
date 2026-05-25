@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QUEDA - Techno Event</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0a0a0a;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 20px;
+}
+
+.flyer {
+  width: 800px;
+  max-width: 100%;
+  aspect-ratio: 3 / 4;
+  background: #0c0c0c;
+  border: 1px solid #1a1a2e;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 60px rgba(0,255,180,0.06), 0 0 120px rgba(0,200,255,0.03);
+}
+
+canvas#particles {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+canvas#codeRain {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+.glow-bg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 20% 30%, rgba(255,0,200,0.06), transparent 50%),
+              radial-gradient(circle at 80% 70%, rgba(0,200,255,0.06), transparent 50%),
+              radial-gradient(circle at 50% 50%, rgba(255,204,0,0.04), transparent 50%);
+}
+
+.grid-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0,255,180,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,180,0.025) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.scanline {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,180,0.01) 2px, rgba(0,255,180,0.01) 4px);
+}
+
+.vignette {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.7) 100%);
+}
+
+.content {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  padding: 40px;
+  width: 100%;
+}
+
+.main-title {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  font-size: clamp(80px, 14vw, 140px);
+  color: #00ff88;
+  text-shadow: 0 0 30px rgba(0,255,136,0.4), 0 0 80px rgba(0,255,136,0.15), 4px 0 0 rgba(0,200,255,0.25), -4px 0 0 rgba(255,0,200,0.15);
+  letter-spacing: 10px;
+  line-height: 1;
+  animation: glitch 4s infinite;
+  position: relative;
+}
+
+@keyframes glitch {
+  0%, 88%, 100% { transform: translate(0); }
+  90% { transform: translate(-3px, 1px); }
+  92% { transform: translate(3px, -1px); }
+  94% { transform: translate(-2px, 2px); }
+  96% { transform: translate(2px, -1px); }
+}
+
+.main-title::before {
+  content: 'QUEDA';
+  position: absolute;
+  top: 0; left: 0; width: 100%;
+  color: #00ccff;
+  opacity: 0.1;
+  transform: translate(5px, 3px);
+  pointer-events: none;
+}
+
+.main-title::after {
+  content: 'QUEDA';
+  position: absolute;
+  top: 0; left: 0; width: 100%;
+  color: #ff00c8;
+  opacity: 0.07;
+  transform: translate(-5px, -3px);
+  pointer-events: none;
+}
+
+.date {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(20px, 3vw, 32px);
+  color: #fff;
+  letter-spacing: 6px;
+  margin-top: 8px;
+}
+
+.date span { color: #00ff88; }
+
+.sub {
+  font-size: 12px;
+  color: #00ccff;
+  letter-spacing: 8px;
+  margin-top: 6px;
+  opacity: 0.5;
+  text-transform: uppercase;
+}
+
+.genre {
+  display: inline-block;
+  font-size: 10px;
+  color: #888;
+  letter-spacing: 4px;
+  margin-top: 24px;
+  padding: 6px 24px;
+  border: 1px solid #1a1a2e;
+  text-transform: uppercase;
+}
+
+.divider {
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,255,136,0.15), transparent);
+  margin: 28px auto;
+}
+
+.lineup {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 28px;
+}
+
+.lineup-name {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(13px, 1.3vw, 16px);
+  color: #d0d0d0;
+  letter-spacing: 2px;
+  transition: color 0.3s;
+  text-decoration: none;
+}
+
+.lineup-name::before { content: '['; color: #00ff88; opacity: 0.25; margin-right: 5px; }
+.lineup-name::after { content: ']'; color: #00ff88; opacity: 0.25; margin-left: 5px; }
+.lineup-name:hover { color: #00ff88; }
+
+.location-box {
+  margin-top: 28px;
+  padding: 16px 24px;
+  border: 1px solid #1a1a2e;
+  background: rgba(0,0,0,0.3);
+  display: inline-block;
+}
+
+.location-box .loc {
+  font-family: 'Orbitron', monospace;
+  font-size: 16px;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+.location-box .loc-sub {
+  font-size: 10px;
+  color: #666;
+  letter-spacing: 3px;
+  margin-top: 3px;
+  text-transform: uppercase;
+}
+
+.entry {
+  margin-top: 24px;
+  display: inline-block;
+  padding: 10px 32px;
+  border: 1px solid #00ff88;
+  font-family: 'Orbitron', monospace;
+  font-size: 11px;
+  color: #00ff88;
+  letter-spacing: 4px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.4s;
+}
+
+.entry:hover {
+  background: #00ff88;
+  color: #0a0a0a;
+  box-shadow: 0 0 40px rgba(0,255,136,0.2);
+}
+
+.tag {
+  margin-top: 20px;
+  font-size: 9px;
+  color: #444;
+  letter-spacing: 3px;
+}
+
+.binary {
+  margin-top: 6px;
+  font-size: 9px;
+  color: #00ff88;
+  opacity: 0.06;
+  letter-spacing: 3px;
+}
+
+@media (max-width: 600px) {
+  .flyer { aspect-ratio: auto; min-height: 100vh; border: none; }
+  .main-title { font-size: 60px; letter-spacing: 5px; }
+  .content { padding: 24px 16px; }
+  .lineup { gap: 6px 16px; }
+  .location-box { padding: 12px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="flyer">
+  <canvas id="codeRain"></canvas>
+  <canvas id="particles"></canvas>
+  <div class="glow-bg"></div>
+  <div class="grid-overlay"></div>
+  <div class="scanline"></div>
+  <div class="vignette"></div>
+
+  <div class="content">
+    <div class="main-title">QUEDA</div>
+    <div class="date">13.JUN.2026 — <span>16H</span></div>
+    <div class="sub">// sistema techno</div>
+
+    <div class="genre">Techno / Industrial / Hard / Groove / Psytrance</div>
+
+    <div class="divider"></div>
+
+    <div class="lineup">
+      <a href="https://www.instagram.com/chamadematos/" target="_blank" class="lineup-name">CHAMADEMATOS</a>
+      <span class="lineup-name">MATHCAPI</span>
+      <span class="lineup-name">MOONWITCH</span>
+      <span class="lineup-name">PESADÃO</span>
+      <span class="lineup-name">PR△DOX</span>
+      <a href="https://www.instagram.com/hayllander/" target="_blank" class="lineup-name">HAYLLANDER</a>
+      <span class="lineup-name">BABYBOOMER</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="location-box">
+      <div class="loc">BAR DE PEDRA</div>
+      <div class="loc-sub">Praça do Liceu — Centro</div>
+    </div>
+
+    <div style="margin-top:14px;font-size:10px;color:#777;line-height:1.7">
+      <strong style="color:#00ff88">40 mesas</strong> &nbsp;|&nbsp; <strong style="color:#00ff88">R$15</strong> por mesa &nbsp;|&nbsp; Até <strong style="color:#00ff88">4</strong> pessoas<br>
+      <span style="font-size:9px;color:#555">R$7,50 (2) · R$5 (3) · R$3,75 (4) cada</span><br>
+      <span style="color:#00ccff;opacity:0.6">Aberto em praça pública</span>
+    </div>
+
+    <a href="https://www.instagram.com/quedasub/" target="_blank" class="entry">[ confirmar ]</a>
+
+    <div class="tag">#QUEDA // 13.JUN.2026</div>
+    <div class="binary">01110001 01110101 01100101 01100100 01100001</div>
+  </div>
+</div>
+
+<script>
+const codeCanvas = document.getElementById('codeRain');
+const codeCtx = codeCanvas.getContext('2d');
+
+function resizeCode() {
+  codeCanvas.width = codeCanvas.parentElement.offsetWidth;
+  codeCanvas.height = codeCanvas.parentElement.offsetHeight;
+}
+resizeCode();
+window.addEventListener('resize', resizeCode);
+
+const codeChars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン/*-+<>~|{}[]&%=#@!?';
+const fontSize = 10;
+const codeCols = () => Math.floor(codeCanvas.width / fontSize);
+let codeDrops = [];
+
+function initCodeDrops() {
+  codeDrops = Array(Math.floor(codeCanvas.width / fontSize)).fill(1);
+}
+initCodeDrops();
+window.addEventListener('resize', initCodeDrops);
+
+let codeHue = 0;
+
+function drawCodeRain() {
+  codeCtx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+  codeCtx.fillRect(0, 0, codeCanvas.width, codeCanvas.height);
+  codeHue = (codeHue + 0.2) % 360;
+
+  codeCtx.font = fontSize + 'px monospace';
+  for (let i = 0; i < codeDrops.length; i++) {
+    const text = codeChars[Math.floor(Math.random() * codeChars.length)];
+    const h = (codeHue + i * 8) % 360;
+    codeCtx.fillStyle = Math.random() > 0.97 ? `hsla(${h}, 100%, 80%, 0.6)` : `hsla(${h}, 100%, 60%, 0.12)`;
+    codeCtx.fillText(text, i * fontSize, codeDrops[i] * fontSize);
+    if (codeDrops[i] * fontSize > codeCanvas.height && Math.random() > 0.975) {
+      codeDrops[i] = 0;
+    }
+    codeDrops[i]++;
+  }
+
+  requestAnimationFrame(drawCodeRain);
+}
+drawCodeRain();
+</script>
+
+<script>
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width = canvas.parentElement.offsetWidth;
+  canvas.height = canvas.parentElement.offsetHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+let hue = 0;
+let time = 0;
+const particles = Array.from({ length: 120 }, () => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height,
+  vx: (Math.random() - 0.5) * 1.5,
+  vy: (Math.random() - 0.5) * 1.5,
+  size: Math.random() * 5 + 2,
+  phase: Math.random() * Math.PI * 2,
+}));
+
+function drawHumanoid(ctx, x, y, size, color) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(size, size);
+  ctx.fillStyle = color;
+  ctx.shadowColor = color;
+  ctx.shadowBlur = 30;
+
+  // head
+  ctx.beginPath();
+  ctx.arc(0, -12, 6, 0, Math.PI * 2);
+  ctx.fill();
+
+  // body
+  ctx.beginPath();
+  ctx.moveTo(-5, -6);
+  ctx.lineTo(5, -6);
+  ctx.lineTo(6, 8);
+  ctx.lineTo(-6, 8);
+  ctx.closePath();
+  ctx.fill();
+
+  // arms
+  ctx.fillRect(-9, -4, 4, 14);
+  ctx.fillRect(5, -4, 4, 14);
+
+  // legs
+  ctx.fillRect(-5, 8, 3, 12);
+  ctx.fillRect(2, 8, 3, 12);
+
+  ctx.shadowBlur = 0;
+  ctx.restore();
+}
+
+const ghosts = [];
+for (let i = 0; i < 5; i++) {
+  ghosts.push({
+    y: Math.random() * 0.8 + 0.1,
+    size: Math.random() * 30 + 20,
+    speed: (Math.random() * 0.4 + 0.2) * (Math.random() > 0.5 ? 1 : -1),
+    phase: Math.random() * Math.PI * 2,
+    floatPhase: Math.random() * Math.PI * 2,
+    floatSpeed: Math.random() * 0.02 + 0.01,
+    alpha: Math.random() * 0.08 + 0.03,
+  });
+}
+
+function drawParticles() {
+  ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  hue = (hue + 0.5) % 360;
+  time += 0.01;
+
+  // particles
+  for (const p of particles) {
+    const h = (hue + p.x * 0.4 + p.y * 0.3 + time * 50) % 360;
+    ctx.shadowColor = `hsla(${h}, 100%, 70%, 0.5)`;
+    ctx.shadowBlur = 25;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = `hsla(${h}, 100%, 60%, 0.6)`;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    p.x += p.vx + Math.sin(time + p.phase) * 0.3;
+    p.y += p.vy + Math.cos(time * 0.7 + p.phase) * 0.3;
+
+    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+    if (p.x < 0) p.x = 0;
+    if (p.x > canvas.width) p.x = canvas.width;
+    if (p.y < 0) p.y = 0;
+    if (p.y > canvas.height) p.y = canvas.height;
+  }
+
+  // connections
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 100) {
+        const h = (hue + i * 20 + time * 100) % 360;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `hsla(${h}, 100%, 60%, ${0.12 * (1 - dist / 100)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+
+  // ghostly figures floating across
+  for (const g of ghosts) {
+    const x = ((time * g.speed * 200 + g.phase * 100) % (canvas.width + 200)) - 100;
+    const y = canvas.height * g.y + Math.sin(time * g.floatSpeed + g.floatPhase) * 30;
+    const h = (hue + g.y * 100 + time * 80) % 360;
+    const color = `hsla(${h}, 100%, 60%, ${g.alpha})`;
+    drawHumanoid(ctx, x, y, g.size / 20, color);
+
+    // glow trail
+    for (let t = 1; t <= 4; t++) {
+      const trailX = x - t * 20 * g.speed;
+      const trailAlpha = g.alpha * (1 - t / 5) * 0.5;
+      ctx.globalAlpha = trailAlpha;
+      drawHumanoid(ctx, trailX, y + Math.sin(time * g.floatSpeed + g.floatPhase + t) * 10, g.size / 25, `hsla(${(h + t * 30) % 360}, 100%, 60%, ${trailAlpha})`);
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+</script>
+
+</body>
+</html>

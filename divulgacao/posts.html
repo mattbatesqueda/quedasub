@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Posts - QUEDA</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #0a0a0a; color: #e0e0e0;
+  font-family: 'JetBrains Mono', monospace; padding: 40px 20px;
+}
+.container { max-width: 700px; margin: 0 auto; }
+h1 { font-family: 'Orbitron', monospace; color: #00ff88; font-size: 24px; letter-spacing: 3px; margin-bottom: 8px; }
+.desc { color: #666; font-size: 12px; margin-bottom: 30px; letter-spacing: 1px; }
+.post { background: #111118; border: 1px solid #1a1a2e; padding: 24px; margin-bottom: 20px; }
+.post h2 { font-family: 'Orbitron', monospace; font-size: 13px; color: #00ccff; letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; }
+.post .texto { font-size: 13px; line-height: 1.7; color: #ccc; white-space: pre-wrap; margin-bottom: 12px; }
+.post .hashtags { font-size: 11px; color: #00ff88; opacity: 0.5; }
+.copy-btn {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px;
+  padding: 8px 16px; background: transparent; color: #00ff88;
+  border: 1px solid #00ff88; cursor: pointer; transition: 0.3s; text-transform: uppercase;
+}
+.copy-btn:hover { background: #00ff88; color: #0a0a0a; }
+.toast {
+  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+  background: #00ff88; color: #0a0a0a; padding: 12px 24px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px;
+  opacity: 0; transition: opacity 0.3s; pointer-events: none;
+}
+.toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>// POSTS_QUEDA</h1>
+  <p class="desc">Clique em copiar e cole no Instagram / Twitter / WhatsApp</p>
+
+  <div class="post">
+    <h2>01 — Anúncio Inicial</h2>
+    <div class="texto" id="p1">▸ QUEDA ◂
+
+Um novo sistema techno vai tomar conta da Praça do Liceu.
+
+13.JUN.2026 • 16H
+BAR DE PEDRA — Centro
+
+LINEUP:
+CHAMADEMATOS
+MATHCAPI
+MOONWITCH
+PESADÃO
+PR△DOX
+HAYLLANDER
+BABYBOOMER
+
+🎧 Techno / Industrial / Hard / Groove / Psytrance
+
+🎟 40 mesas • R$15 por mesa (até 4 pessoas)
+Evento aberto em praça pública — todo mundo é bem-vindo!
+
+Confirme sua presença no @quedasub</div>
+    <div class="hashtags">#QUEDA #Techno #SomosTodosQueda #13Junho #TechnoBrasil #PraçaDoLiceu #BarDePedra</div>
+    <button class="copy-btn" onclick="copiar('p1')">[ copiar ]</button>
+  </div>
+
+  <div class="post">
+    <h2>02 — Lineup</h2>
+    <div class="texto" id="p2">▸ NÚCLEO DO SISTEMA ◂
+
+QUEDA — 13.JUN.2026
+
+Apresentando o lineup completo:
+
+01 :: CHAMADEMATOS
+02 :: MATHCAPI
+03 :: MOONWITCH
+04 :: PESADÃO
+05 :: PR△DOX
+06 :: HAYLLANDER
+07 :: BABYBOOMER
+
+Techno industrial, hard, groove e psytrance tomando conta do Bar de Pedra.
+
+📍 Praça do Liceu — Centro
+🕓 16h até o fim
+🎟 Mesas a partir de R$15
+
+Chama quem vai estar com você nessa!
+
+@quedasub</div>
+    <div class="hashtags">#QUEDA #Techno #Lineup #DJs #TechnoBrasil #13Junho #BarDePedra #PraçaDoLiceu</div>
+    <button class="copy-btn" onclick="copiar('p2')">[ copiar ]</button>
+  </div>
+
+  <div class="post">
+    <h2>03 — Local & Info</h2>
+    <div class="texto" id="p3">▸ QUEDA — INFORMAÇÕES DO SISTEMA ◂
+
+📅 DATA: 13.JUN.2026 (SÁBADO)
+⏰ HORÁRIO: 16H
+📍 LOCAL: BAR DE PEDRA — Praça do Liceu, Centro
+🎵 GÊNERO: Techno / Industrial / Hard / Groove / Psytrance
+
+🎟 MESAS:
+40 mesas disponíveis • R$15 por mesa
+Divida com até 4 pessoas:
+→ 2 pessoas: R$7,50 cada
+→ 3 pessoas: R$5 cada
+→ 4 pessoas: R$3,75 cada
+
+O espaço é aberto em praça pública — entrada livre pra todo mundo!
+
+Confirme sua presença no @quedasub</div>
+    <div class="hashtags">#QUEDA #Techno #13Junho #BarDePedra #PraçaDoLiceu #Centro #EventoTech #SomosTodosQueda</div>
+    <button class="copy-btn" onclick="copiar('p3')">[ copiar ]</button>
+  </div>
+
+  <div class="post">
+    <h2>04 — Chamada Final (Próximo ao evento)</h2>
+    <div class="texto" id="p4">▸ QUEDA — SISTEMA INICIADO EM BREVE ◂
+
+FALTAM POUCOS DIAS!
+
+13.JUN.2026 • 16H
+BAR DE PEDRA — Praça do Liceu
+
+DJs:
+CHAMADEMATOS | MATHCAPI | MOONWITCH
+PESADÃO | PR△DOX | HAYLLANDER | BABYBOOMER
+
+🎧 Techno / Industrial / Hard / Groove / Psytrance
+
+A praça vai tremer. Confirma sua presença no @quedasub e vem pro sistema!
+
+#QUEDA #Techno #FimDeSemana #13Junho #RoleTechno #BarDePedra</div>
+    <div class="hashtags">#QUEDA #Techno #FaltamPoucosDias #13Junho #RoleTechno #BarDePedra #PraçaDoLiceu</div>
+    <button class="copy-btn" onclick="copiar('p4')">[ copiar ]</button>
+  </div>
+
+  <div class="post">
+    <h2>05 — Agradecimento Pós-Evento</h2>
+    <div class="texto" id="p5">▸ QUEDA — SISTEMA FINALIZADO ◂
+
+Obrigado a todo mundo que fez parte da primeira QUEDA.
+
+A praça vibrou, o techno ecoou, e o sistema foi um sucesso.
+
+Até a próxima.
+
+🔊 CHAMADEMATOS
+🔊 MATHCAPI
+🔊 MOONWITCH
+🔊 PESADÃO
+🔊 PR△DOX
+🔊 HAYLLANDER
+🔊 BABYBOOMER
+
+📍 Bar de Pedra — Praça do Liceu
+
+Fiquem ligados no @quedasub pra próximas edições.
+
+#QUEDA #Techno #Gratidão #PraçaDoLiceu #BarDePedra #TechnoBrasil #SomosTodosQueda</div>
+    <div class="hashtags">#QUEDA #Techno #Gratidão #PraçaDoLiceu #BarDePedra #TechnoBrasil #SomosTodosQueda #FoiTop</div>
+    <button class="copy-btn" onclick="copiar('p5')">[ copiar ]</button>
+  </div>
+</div>
+
+<div class="toast" id="toast">// COPIADO</div>
+
+<script>
+function copiar(id) {
+  const texto = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(texto).then(() => {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  });
+}
+</script>
+</body>
+</html>
